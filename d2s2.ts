@@ -5,8 +5,8 @@ const instructions = text.split("\n");
 let x = 0, y = 0, aim = 0;
 
 instructions.forEach((ins) => {
-  const [cmd, num_str] = ins.split(" ");
-  const num = parseInt(num_str);
+  const [cmd, numStr] = ins.split(" ");
+  const num = parseInt(numStr);
 
   switch (cmd) {
     case "forward":
