@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dumbo Octopuses</title>
+    <style>
+        body {
+            font-size: 28px;
+            font-family: Monaco, monospace;
+            color: white;
+            background-color: black;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .row {
+            display: flex;
+            flex-direction: column;
+        }
+
+        div {
+            width: 32px;
+            height: 32px;
+        }
+    </style>
+    <script>
+        const text = `7232374314
+8531113786
+3411787828
+5482241344
+5856827742
+7614532764
+5311321758
+1255116187
+5821277714
+2623834788`;
+        const lines = text.split("\n");
+        const nums = lines.map(line => line.split('').map(x => parseInt(x)));
+
+        const inc = (y, x) => {
+            if (x < 0 || y < 0 || x > 9 || y > 9) {
+                return
+            };
+
+            const old = nums[y][x];
+            nums[y][x]++;
+            if (old < 10 && nums[y][x] === 10) {
+                flash(y, x);
+            }
+        }
+
+        const flash = (y, x) => {
+            inc(y - 1, x - 1);
+            inc(y - 1, x);
+            inc(y - 1, x + 1);
+            inc(y, x - 1);
+            inc(y, x + 1);
+            inc(y + 1, x - 1);
+            inc(y + 1, x);
+            inc(y + 1, x + 1);
+        }
+
+        setInterval(() => {
+            for (let y = 0; y < 10; y++) {
+                for (let x = 0; x < 10; x++) {
+                    inc(y, x);
+                }
+            }
+
+            let outPut = '<div id="container">';
+
+            for (let y = 0; y < 10; y++) {
+                outPut += '<div class="row">'
+                for (let x = 0; x < 10; x++) {
+                    if (nums[y][x] > 9) {
+                        nums[y][x] = 0;
+                        outPut += `<div>🐙</div>`
+                    } else {
+                        outPut += `<div>${nums[y][x].toString()}</div>`
+                    }
+                }
+                outPut += '</div>'
+            }
+
+            document.body.innerHTML = outPut + '</div>';
+        }, 50);
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
